@@ -39,13 +39,20 @@ public class FrontCompression {
             return null;
         } else if (corpus.length() == 0) {
             return "";
+        } else {
+            String[] corpusArray = corpus.split("\n");
+            String answer = "";
+            String previous = "";
+            for (int i = 0; i < corpusArray.length; i++) {
+                String leftOver = "";
+                String word = corpusArray[i];
+                int sameLetters = longestPrefix(word, previous);
+                leftOver = corpusArray[i].substring(sameLetters, corpusArray[i].length());
+                previous = word;
+                answer += sameLetters + " " + leftOver + "\n";
+            }
+            return answer;
         }
-
-        /*
-         * Complete this function.
-         */
-
-        return "";
     }
 
     /**
@@ -62,13 +69,25 @@ public class FrontCompression {
             return null;
         } else if (corpus.length() == 0) {
             return "";
+        } else {
+            String[] corpusArray = corpus.split("[\\ \n]");
+            String answer = corpusArray[1] + "\n";
+            String previous = corpusArray[1];
+            for (int i = 2; i < corpusArray.length - 1; i++) {
+                String word = "";
+                int prefixLength = Integer.parseInt(corpusArray[i]);
+                i++;
+                word = corpusArray[i];
+                answer += previous.substring(0, prefixLength) + word + "\n";
+                previous = previous.substring(0, prefixLength) + word;
+            }
+            return answer;
+
         }
 
         /*
          * Complete this function.
          */
-
-        return "";
     }
 
     /**
@@ -82,7 +101,15 @@ public class FrontCompression {
         /*
          * Complete this function.
          */
-        return 0;
+        int prefixLength = 0;
+        for (int i = 0; i < firstString.length() && i < secondString.length(); i++) {
+            if (firstString.charAt(i) == secondString.charAt(i)) {
+                prefixLength++;
+            } else {
+                break;
+            }
+        }
+        return prefixLength;
     }
 
     /**
